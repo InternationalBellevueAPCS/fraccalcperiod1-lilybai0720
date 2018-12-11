@@ -34,7 +34,7 @@ public class FracCalc {
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
     	Scanner s =new Scanner(input);
     	String operand1 = s.next();// will just read to space or end of section
-    	String operator = s.next();// + or - 
+    	String operator = s.next();// + or - or*
     	String operand2= s.next();
     
     	
@@ -42,15 +42,71 @@ public class FracCalc {
         // Checkpoint 2: Return the second operand as a string representing each part.
         //               Example "4/5 * 1_2/4" returns "whole:1 numerator:2 denominator:4".
     	String op2Whole = findWhole(operand2); //find whole
+    	int newop2Whole=Integer.parseInt(op2Whole);
+
+    	
     	String op2Num = findNum(operand2); // find numerator
+    	int newop2Num=Integer.parseInt(op2Num);
+    	
     	String op2Denom = findDenom(operand2);// find denominator
+    	int newop2Denom=Integer.parseInt(op2Num);
     	
     	String chk2Answer = "whole:" + op2Whole + " numerator:" + op2Num + " denominator:" + op2Denom;
-    
-    	return chk2Answer;
+    	String op1Whole = findWhole(operand1);
+    	int newop1Whole=Integer.parseInt(op1Whole);
+    	
+    	String op1Num=findNum(operand1);
+    	int newop1Num=Integer.parseInt(op1Num);
+    	
+    	String op1Denom= findDenom(operand1);
+    	int newop1Denom=Integer.parseInt(op1Denom);
+    	String op1Answer = "whole:" + op1Whole +" numberator:" + op1Num + " denominator:" + op1Denom;
+    	
+    			
+    	
         // Checkpoint 3: Evaluate the formula and return the result as a fraction.
         //               Example "4/5 * 1_2/4" returns "6/5".
         //               Note: Answer does not need to be reduced, but it must be correct.
+    	int ImproperNum1 = (newop1Whole* newop1Denom)+newop1Num;
+    	int ImproperDenom1= (newop1Denom);
+    	int ImproperNum2=(newop2Whole*newop2Denom)+newop2Num;
+    	int ImproperDenom2= (newop2Denom);
+    	int answernum=0;
+    	int answerdenom=0;
+    	if (operator == "+")
+    	{
+    		ImproperNum1 *= ImproperDenom2;
+    		ImproperDenom1 *= ImproperDenom2;
+    		ImproperNum2 *= ImproperDenom1;
+    		ImproperDenom2 *= ImproperDenom1;
+    		answernum=ImproperNum1+ImproperNum2; //add the top and bottom
+    		answerdenom= ImproperDenom2; //both should be the same
+    		
+    	}
+    	else if (operator == "-")
+    	{
+    		ImproperNum1 *= ImproperDenom2;
+    		ImproperDenom1 *= ImproperDenom2;
+    		ImproperNum2 *= ImproperDenom1;
+    		ImproperDenom2 *= ImproperDenom1;
+    		answernum=ImproperNum1-ImproperNum2; //subtract top and bottom 
+    		answerdenom= ImproperDenom2; //both should be the same
+    		
+    	}
+    	else if (operator == "*")
+    	{
+    		answernum=ImproperNum1*ImproperNum2;
+    		answerdenom = ImproperDenom1 * ImproperDenom2;
+    	}
+    	else if (operator == "/")
+    	{
+    		int flipimpnum2num= ImproperDenom2;
+    		int flipimpnum2denom=ImproperNum2;
+    		answernum=ImproperNum1*flipimpnum2num;
+    		answerdenom = ImproperDenom1 * flipimpnum2denom;
+    	}
+    	return (answernum + "/" + answerdenom);
+    
         // Final project: All answers must be reduced.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
         
@@ -58,6 +114,9 @@ public class FracCalc {
     }
     // if mixed number, there'll be an underscore
     // TODO: Fill in the space below with helper methods
+    
+    			
+    
     public static String findWhole (String str)//operand 2 can be mixed, fraction or whole. We're finding the whole number part here.
     {
     	if (str.contains("_")) //sees if input is mixed number 
