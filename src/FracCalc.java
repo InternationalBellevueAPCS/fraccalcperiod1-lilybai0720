@@ -91,8 +91,8 @@ public class FracCalc {
     	//System.out.println("this is scaled num2: " + sclimpropernum2);
     	int improperdenom=(newop1Denom*newop2Denom); // scales denominator so they're the same 
     	
-    	//System.out.println("this is scaled improper frac1: " + sclimpropernum1 + "/" + improperdenom);
-    	//System.out.println("this is scaled improper frac2:" + sclimpropernum2 + "/"+ improperdenom);
+    	System.out.println("this is scaled improper frac1: " + sclimpropernum1 + "/" + improperdenom);
+    	System.out.println("this is scaled improper frac2:" + sclimpropernum2 + "/"+ improperdenom);
     	String answer= "";
     	int answernum=0;
     	int answerdenom=0;
@@ -116,6 +116,7 @@ public class FracCalc {
     	}
     	if (operator.equals("*"))
     	{
+    		
     		answernum = sclimpropernum1 * sclimpropernum2;
     		Integer.toString(answernum);
     		answerdenom = improperdenom * improperdenom;
@@ -131,34 +132,55 @@ public class FracCalc {
     	}
     	System.out.println("here's the improper answer: " + answer);
     	int gcd = greatestCommonDivisor(answernum, answerdenom);
-    	System.out.println("this is the greatest common divisor: " + gcd);
-    	int reducnum = 0;
-    	int reducdenom=0;
-    	int reducwhole =0;
-    	int reducansnum = 0;
-    	if (Math.abs(answernum)>answerdenom)
+    	System.out.println("this is the greatest common divisor: " + gcd); // find gcd
+    	int reducnum  =0;
+    	int reducdenom;
+    	int reducwhole=0 ;
+    	int reducansnum=0 ;
+    	if (Math.abs(answernum)>answerdenom) // if the numerator is bigger than the denominator 
     	{
-    		System.out.println("entered line 141");
-    		reducnum = answernum/gcd;
-    		reducdenom= answerdenom/gcd;
+    
+    		reducnum = answernum/gcd; //reduce top
+    		reducdenom= answerdenom/gcd; // reduce bottom
     		System.out.println("here's the reduced fraction"+ reducnum + "/" + reducdenom);
     		
     		reducwhole = reducnum/reducdenom;
    			reducansnum = reducnum % reducdenom;
-   			if (reducnum% reducdenom ==0)
-   			{
-   				answer=Integer.toString(reducwhole);
-   			}
-   			else if (Math.abs(reducwhole)>0)
-   	   			{
-   	   				answer = reducwhole + "_" + reducansnum + "/" + reducdenom;
-   	   			}
-   	    		else
-   	    		{
-   	   				answer = reducansnum + "/" + reducdenom;
-   	   			}
+    	}
+    	reducdenom = answerdenom/gcd; 
+    	reducnum = answernum/gcd;
+    	if (reducnum % reducdenom ==0)
+   		{
+    		reducwhole = reducnum/reducdenom;
+   			answer=Integer.toString(reducwhole);
    		}
-   				
+   		else if (Math.abs(reducwhole)>0)
+   	   		{
+   	   			answer = reducwhole + "_" + Math.abs(reducansnum) + "/" + Math.abs(reducdenom);
+   	   		}
+   	    else
+   	    {
+   	  		System.out.println("entered else");
+   	  		reducnum = answernum/gcd; //reduce top
+      		reducdenom= answerdenom/gcd; // reduce bottom
+      		System.out.println("here's the reduced fraction"+ reducnum + "/" + reducdenom);
+   	    	reducwhole = reducnum/reducdenom;
+   	   		reducansnum = reducnum % reducdenom;	
+   	   		answer = reducansnum + "/" + reducdenom;
+   	   	}
+   		
+    if (reducansnum ==0 && reducwhole ==0)
+		{
+			System.out.println("enter 0 loop");
+			answer = "0";
+		}
+    if (reducansnum > 0 && reducdenom < 0 && reducwhole ==0)
+    {
+    	reducansnum *= -1;
+    	reducdenom *= -1;
+    	answer = reducansnum + "/" + reducdenom;
+    
+    }
    	return answer;		
    	}
     
